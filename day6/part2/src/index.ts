@@ -1,28 +1,28 @@
-var fs = require('fs');
+import fs from 'fs';
 
 fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
   if (err != null) {
     console.error("Error", err);
     return;
   }
-  let count = 0
+  let count = 0;
   const questions: Array<number> = contents.trim().split("\n\n").map(
     (x: string): number => {
-      let qs: Set<string> = new Set()
-      let first = true
+      let qs: Set<string> = new Set();
+      let first = true;
       x.trim().split("\n").forEach(
         (y: string) => {
-          let iq = new Set(y.trim().split(""))
+          const iq = new Set(y.trim().split(""));
           if (first) {
-            qs = iq
+            qs = iq;
           }
-          first = false
+          first = false;
           qs = new Set([...qs].filter(i => iq.has(i)));
         });
-      count += qs.size
+      count += qs.size;
 
       return qs.size;
     }
   );
-  console.log("Count:", count)
+  console.log("Count:", count);
 });

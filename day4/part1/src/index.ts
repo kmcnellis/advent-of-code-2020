@@ -1,4 +1,4 @@
-var fs = require('fs');
+import fs from 'fs';
 
 const expected = new Set([
   "byr",// (Birth Year)
@@ -21,39 +21,39 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
   }
   const passports: Array<{ [key: string]: string }> = contents.trim().split("\n\n").map(
     (x: string): { [key: string]: string } => {
-      let pp: { [key: string]: string } = {};
+      const pp: { [key: string]: string } = {};
       x.trim().split(/\s/g).forEach(
         (y: string) => {
-          const vals = y.trim().split(":")
-          pp[vals[0]] = vals[1]
+          const vals = y.trim().split(":");
+          pp[vals[0]] = vals[1];
         });
       return pp;
     }
   );
 
-  let count = 0
+  let count = 0;
   passports.forEach((pp: { [key: string]: string }) => {
-    const k = Object.keys(pp)
+    const k = Object.keys(pp);
     const fields = new Set(Object.keys(pp));
     if (fields.size != k.length) {
-      console.log("duplicate field")
+      console.log("duplicate field");
       return;
     }
 
     let valid = true;
     fields.forEach((x: string) => {
       if (!(expected.has(x) || optional.has(x))) {
-        valid = false
+        valid = false;
       }
-    })
+    });
     expected.forEach((x: string) => {
       if (!(fields.has(x))) {
-        valid = false
+        valid = false;
       }
-    })
+    });
     if (valid) {
-      count += 1
+      count += 1;
     }
-  })
-  console.log("Count:", count)
+  });
+  console.log("Count:", count);
 });

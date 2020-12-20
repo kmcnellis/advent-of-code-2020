@@ -1,6 +1,6 @@
-var fs = require('fs');
+import fs from 'fs';
 
-const search = 70639851
+const search = 70639851;
 fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
   if (err != null) {
     console.error("Error", err);
@@ -8,25 +8,25 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
   }
   const values: Array<number> = contents.trim().split("\n").map(
     (x: string): number => {
-      return parseInt(x)
+      return parseInt(x);
     }
   );
 
-  let sums: Array<number> = []
-  let val = 0
+  const sums: Array<number> = [];
+  let val = 0;
   for (let i = 0; i < values.length; i++) {
-    const current = values[i]
-    sums.push(current)
-    val += current
+    const current = values[i];
+    sums.push(current);
+    val += current;
     while (val > search) {
-      const rem = sums.shift()
-      val -= rem
+      const rem = sums.shift();
+      val -= rem;
     }
     if (val == search) {
-      console.log("found", val, sums)
-      let f = Math.min(...sums)
-      let l = Math.max(...sums)
-      console.log("sum", f, l, "=", f + l)
+      console.log("found", val, sums);
+      const f = Math.min(...sums);
+      const l = Math.max(...sums);
+      console.log("sum", f, l, "=", f + l);
 
     }
   }

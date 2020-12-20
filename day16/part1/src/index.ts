@@ -1,4 +1,4 @@
-var fs = require('fs');
+import fs from 'fs';
 
 interface Category {
   name: string;
@@ -16,15 +16,15 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
     console.error("Error", err);
     return;
   }
-  let input = contents.trim().split("\n\n")
+  const input = contents.trim().split("\n\n");
 
-  let fields = input[0].trim().split("\n").map(
+  const fields = input[0].trim().split("\n").map(
     (x: string): Category => {
-      const r = new RegExp(/^([\w ]*): (\d*)-(\d*) or (\d*)-(\d*)$/m)
-      const res = x.match(r)
+      const r = new RegExp(/^([\w ]*): (\d*)-(\d*) or (\d*)-(\d*)$/m);
+      const res = x.match(r);
       if (res == null) {
-        console.log(x, "issue with regex")
-        return
+        console.log(x, "issue with regex");
+        return;
       }
 
       return {
@@ -37,11 +37,11 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
           start: parseInt(res[4]),
           end: parseInt(res[5]),
         },
-      }
+      };
     }
   );
-  console.log("fields", fields)
-  let errors = 0
+  console.log("fields", fields);
+  let errors = 0;
   input[2].trim().split("\n").forEach(
     (x: string) => {
       if (x == "nearby tickets:") {
@@ -49,10 +49,10 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
       }
       x.trim().split(",").forEach(
         (y: string) => {
-          const val = parseInt(y)
-          let valid = false
+          const val = parseInt(y);
+          let valid = false;
           for (let i = 0; i < fields.length; i++) {
-            const test = fields[i]
+            const test = fields[i];
             if ((val >= test.rangeA.start && val <= test.rangeA.end) ||
               (val >= test.rangeB.start && val <= test.rangeB.end)) {
               valid = true;
@@ -60,11 +60,11 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
             }
           }
           if (!valid) {
-            errors += val
-            console.log(`${val} not valid`)
+            errors += val;
+            console.log(`${val} not valid`);
           }
         });
     });
-  console.log(`error rate:${errors}`)
+  console.log(`error rate:${errors}`);
 
 });

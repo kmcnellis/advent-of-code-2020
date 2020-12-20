@@ -1,4 +1,4 @@
-var fs = require('fs');
+import fs from 'fs';
 
 interface Category {
   name: string;
@@ -17,16 +17,16 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
     console.error("Error", err);
     return;
   }
-  let input = contents.trim().split("\n\n")
-  let myTicket = input[1].trim().split("\n")[1].split(",")
+  const input = contents.trim().split("\n\n");
+  const myTicket = input[1].trim().split("\n")[1].split(",");
 
-  let fields = input[0].trim().split("\n").map(
+  const fields = input[0].trim().split("\n").map(
     (x: string): Category => {
-      const r = new RegExp(/^([\w ]*): (\d*)-(\d*) or (\d*)-(\d*)$/m)
-      const res = x.match(r)
+      const r = new RegExp(/^([\w ]*): (\d*)-(\d*) or (\d*)-(\d*)$/m);
+      const res = x.match(r);
       if (res == null) {
-        console.log(x, "issue with regex")
-        return
+        console.log(x, "issue with regex");
+        return;
       }
 
       return {
@@ -40,11 +40,11 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
           end: parseInt(res[5]),
         },
         possibleFields: Array.from(Array(myTicket.length), (i, index) => index)
-      }
+      };
     }
   );
-  console.log("fields", fields)
-  let tickets = input[2].trim().split("\n").slice(1).map(
+  console.log("fields", fields);
+  const tickets = input[2].trim().split("\n").slice(1).map(
     (x: string): Array<number> => {
       return x.trim().split(",").map(
         (y: string): number => {
@@ -52,12 +52,12 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
         });
     }).filter(
       (x: Array<number>) => {
-        let validTicket = true
+        let validTicket = true;
         x.forEach(
           (val: number) => {
             let valid = false;
             for (let i = 0; i < fields.length; i++) {
-              const test = fields[i]
+              const test = fields[i];
               if ((val >= test.rangeA.start && val <= test.rangeA.end) ||
                 (val >= test.rangeB.start && val <= test.rangeB.end)) {
                 valid = true;
@@ -74,48 +74,48 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
   tickets.forEach(
     (x: Array<number>) => {
       for (let i = 0; i < x.length; i++) {
-        const val = x[i]
+        const val = x[i];
 
         for (let j = 0; j < fields.length; j++) {
-          const test = fields[j]
+          const test = fields[j];
           if (test.possibleFields.includes(i)) {
             if (!(val >= test.rangeA.start && val <= test.rangeA.end) &&
               !(val >= test.rangeB.start && val <= test.rangeB.end)) {
-              test.possibleFields = test.possibleFields.filter(z => z !== i)
-              console.log(`field ${i} not allowed in ${test.name} due to value ${val}`, test.possibleFields)
+              test.possibleFields = test.possibleFields.filter(z => z !== i);
+              console.log(`field ${i} not allowed in ${test.name} due to value ${val}`, test.possibleFields);
             }
           }
         }
       }
     });
 
-  let done = false
-  let assigned: Array<number> = []
+  let done = false;
+  const assigned: Array<number> = [];
   while (!done) {
-    done = true
+    done = true;
     for (let i = 0; i < fields.length; i++) {
-      const test = fields[i]
+      const test = fields[i];
       if (test.possibleFields.length > 1) {
-        test.possibleFields = test.possibleFields.filter((z) => !assigned.includes(z))
+        test.possibleFields = test.possibleFields.filter((z) => !assigned.includes(z));
       }
 
       if (test.possibleFields.length <= 1) {
         if (!assigned.includes(test.possibleFields[0])) {
-          assigned.push(test.possibleFields[0])
+          assigned.push(test.possibleFields[0]);
         }
       } else {
-        done = false
+        done = false;
       }
     }
   }
   for (let i = 0; i < fields.length; i++) {
-    const test = fields[i]
-    console.log(`field "${test.name}" is position ${test.possibleFields[0]}`)
+    const test = fields[i];
+    console.log(`field "${test.name}" is position ${test.possibleFields[0]}`);
   }
   for (let i = 0; i < fields.length; i++) {
-    const test = fields[i]
-    const f = test.possibleFields[0]
-    console.log(`"${test.name}" : ${myTicket[f]}`)
+    const test = fields[i];
+    const f = test.possibleFields[0];
+    console.log(`"${test.name}" : ${myTicket[f]}`);
   }
 
 

@@ -1,4 +1,4 @@
-var fs = require('fs');
+import fs from 'fs';
 
 fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
   if (err != null) {
@@ -7,23 +7,23 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
   }
   const questions: Array<{ [key: string]: boolean }> = contents.trim().split("\n\n").map(
     (x: string): { [key: string]: boolean } => {
-      let qs: { [key: string]: boolean } = {};
+      const qs: { [key: string]: boolean } = {};
       x.trim().split("\n").forEach(
         (y: string) => {
           y.trim().split("").forEach(
             (z: string) => {
-              qs[z] = true
+              qs[z] = true;
             });
         });
       return qs;
     }
   );
-  console.log("questions", questions)
+  console.log("questions", questions);
 
-  let count = 0
+  let count = 0;
   questions.forEach((q => {
-    const k = Object.keys(q)
-    count += k.length
-  }))
-  console.log("Count:", count)
+    const k = Object.keys(q);
+    count += k.length;
+  }));
+  console.log("Count:", count);
 });

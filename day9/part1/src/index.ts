@@ -1,6 +1,6 @@
-var fs = require('fs');
+import fs from 'fs';
 
-const preamble = 25
+const preamble = 25;
 interface Sums {
   value: number;
   componentA: number;
@@ -17,23 +17,23 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
   }
   const values: Array<number> = contents.trim().split("\n").map(
     (x: string): number => {
-      return parseInt(x)
+      return parseInt(x);
     }
   );
-  const sums: { [key: number]: Sums } = {}
+  const sums: { [key: number]: Sums } = {};
   for (let i = 0; i < values.length; i++) {
-    let lower = i - preamble - 1
+    let lower = i - preamble - 1;
     if (lower >= 0) {
-      for (let key in sums) {
+      for (const key in sums) {
         if (sums.hasOwnProperty(key) && sums[key].lower < lower) {
           // console.log(i, ": delete", key, ":", sums[key].indexA, sums[key].indexB, "<=", lower)
-          delete sums[key]
+          delete sums[key];
         }
       }
     }
-    lower = Math.max(lower, 0)
+    lower = Math.max(lower, 0);
     for (let j = lower; j < i; j++) {
-      const s = values[i] + values[j]
+      const s = values[i] + values[j];
       if (!(s in sums) || (sums[s].lower < j)) {
         sums[s] = {
           value: s,
@@ -42,7 +42,7 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
           componentB: values[j],
           indexB: j,
           lower: j
-        }
+        };
         // console.log(i, ": add", s, ":", i, j)
       }
       else {
@@ -53,8 +53,8 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
     if (i >= preamble) {
       if (!(values[i] in sums)) {
         // console.log(sums)
-        console.log("Value", i, "missing sums:", values[i])
-        return
+        console.log("Value", i, "missing sums:", values[i]);
+        return;
       }
     }
   }

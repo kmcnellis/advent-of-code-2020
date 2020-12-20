@@ -1,4 +1,4 @@
-var fs = require('fs');
+import fs from 'fs';
 
 fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
   if (err != null) {
@@ -7,20 +7,20 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
   }
   const values: Array<number> = contents.trim().split("\n").map(
     (x: string): number => {
-      return parseInt(x)
+      return parseInt(x);
     }
   );
 
-  let adapt = values.sort(compare)
-  adapt.push(adapt[adapt.length - 1] + 3)
-  adapt.unshift(0)
-  let vals: { [key: number]: number } = { 1: 0, 2: 0, 3: 0 }
+  const adapt = values.sort(compare);
+  adapt.push(adapt[adapt.length - 1] + 3);
+  adapt.unshift(0);
+  const vals: { [key: number]: number } = { 1: 0, 2: 0, 3: 0 };
   for (let i = 1; i < adapt.length; i++) {
-    let diff = adapt[i] - adapt[i - 1]
-    vals[diff]++
+    const diff = adapt[i] - adapt[i - 1];
+    vals[diff]++;
   }
-  console.log(adapt)
-  console.log(vals)
+  console.log(adapt);
+  console.log(vals);
 
 });
 

@@ -1,4 +1,4 @@
-var fs = require('fs');
+import fs from 'fs';
 
 interface Seat { code: string; id: number }
 
@@ -18,24 +18,24 @@ fs.readFile('input.txt', 'utf8', function(err: any, contents: string) {
           case "R":
             return "1";
         }
-        return " "
-      }).join("")
+        return " ";
+      }).join("");
 
       return {
         code: x,
         id: parseInt(id, 2),
-      }
+      };
     }
   );
 
-  seats.sort(compare)
-  let last = seats[0].id - 1
+  seats.sort(compare);
+  let last = seats[0].id - 1;
   seats.forEach((s: Seat) => {
     if (s.id - last != 1) {
-      console.log("Missing seat is:", s.id - 1)
+      console.log("Missing seat is:", s.id - 1);
     }
-    last = s.id
-  })
+    last = s.id;
+  });
 
 
 });
